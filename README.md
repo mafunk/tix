@@ -14,7 +14,11 @@
 
 ## Dev
 
+> add 127.0.0.1 tickets.dev to hosts file
+
 `skaffold dev`
+
+First time visting tickets.dev. type: `thisisunsafe` to bypass chrome security warning
 
 ## Terms of Kubernetes
 
