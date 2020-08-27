@@ -1,0 +1,20 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+
+build:
+  local:
+    push: false # do not push to docker hub
+  artifacts:
+    - image: funkstyr/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts" # files to watch
+            dest: . # where to sync file to
