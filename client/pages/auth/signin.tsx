@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 
 import useRequest from "hooks/use-request";
 
-function SignupPage() {
+function SigninPage() {
   const router = useRouter();
 
   const { handleSubmit, register, reset } = useForm({
@@ -11,7 +11,7 @@ function SignupPage() {
   });
 
   const { doRequest, errors } = useRequest({
-    url: "/users/signup",
+    url: "/users/signin",
     method: "post",
     onSuccess: () => {
       reset();
@@ -43,7 +43,7 @@ function SignupPage() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h1>Sign Up</h1>
+      <h1>Sign In</h1>
 
       <div className="form-group">
         <label>Email Address</label>
@@ -69,9 +69,9 @@ function SignupPage() {
 
       {renderErrors()}
 
-      <button className="btn btn-primary">Sign Up</button>
+      <button className="btn btn-primary">Sign In</button>
     </form>
   );
 }
 
-export default SignupPage;
+export default SigninPage;
