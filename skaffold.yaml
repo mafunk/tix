@@ -14,6 +14,19 @@ build:
       context: auth
       docker:
         dockerfile: Dockerfile
+        buildArgs:
+          NPM_TOKEN: "{{.NPM_TOKEN}}"
+      sync:
+        manual:
+          - src: "src/**/*.ts" # files to watch
+            dest: . # where to sync file to
+
+    - image: funkstyr/tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+        buildArgs:
+          NPM_TOKEN: "{{.NPM_TOKEN}}"
       sync:
         manual:
           - src: "src/**/*.ts" # files to watch

@@ -47,3 +47,9 @@ First time visting tickets.dev. type: `thisisunsafe` to bypass chrome security w
     * /api/users/signout - POST
     * /api/users/current - GET
 
+## Tickets Service
+
+    * /api/tickets - GET
+    * /api/tickets/:id - GET
+    * /api/tickets - POST, title: string, price: string
+    * /api/tickets/:id - PUT, title: string, price string

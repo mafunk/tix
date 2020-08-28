@@ -4,10 +4,10 @@ import { json } from "body-parser";
 import cookieSession from "cookie-session";
 import { errorHandler, NotFoundError } from "@mafunk/tix-common";
 
-import { currentRouter } from "./routes/current";
-import { signinRouter } from "./routes/signin";
-import { signoutRouter } from "./routes/signout";
-import { signupRouter } from "./routes/signup";
+// import { currentRouter } from "./routes/current";
+// import { signinRouter } from "./routes/signin";
+// import { signoutRouter } from "./routes/signout";
+// import { signupRouter } from "./routes/signup";
 
 const app = express();
 
@@ -21,15 +21,15 @@ app.use(
   })
 );
 
-app.get("/api/users/ping", (req, res) => {
+app.get("/api/tickets/ping", (req, res) => {
   return res.send(Date());
 });
 
 // routes
-app.use(currentRouter);
-app.use(signinRouter);
-app.use(signoutRouter);
-app.use(signupRouter);
+// app.use(currentRouter);
+// app.use(signinRouter);
+// app.use(signoutRouter);
+// app.use(signupRouter);
 
 app.all("*", () => {
   throw new NotFoundError();

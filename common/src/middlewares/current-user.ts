@@ -21,9 +21,11 @@ export const currentUser = (
   res: Response,
   next: NextFunction
 ) => {
+  // @ts-ignore
   if (!req.session?.jwt) return next();
 
   try {
+    // @ts-ignore
     const payload = jwt.verify(req.session.jwt, JWT_SECRET) as UserPayload;
 
     req.currentUser = payload;
