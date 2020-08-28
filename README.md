@@ -11,6 +11,8 @@
    1. https://kubernetes.github.io/ingress-nginx/deploy/
 4. Install Skaffold
    1. https://skaffold.dev/docs/install/
+5. `kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asdf`
+   1. `kubectl get secrets`
 
 ## Dev
 
