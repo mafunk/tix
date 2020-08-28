@@ -18,3 +18,12 @@ build:
         manual:
           - src: "src/**/*.ts" # files to watch
             dest: . # where to sync file to
+
+    - image: funkstyr/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "**/*" # files to watch
+            dest: . # where to sync file to
