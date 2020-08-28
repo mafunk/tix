@@ -1,6 +1,6 @@
 {
-  "name": "@mafunk/common",
-  "version": "1.0.0",
+  "name": "@mafunk/tix-common",
+  "version": "1.0.1",
   "license": "MIT",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -13,12 +13,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/mafunk/tix.git",
-    "directory": "@mafunk/common"
+    "directory": "@mafunk/tix-common"
   },
   "scripts": {
     "clean": "rimraf ./build",
     "build": "yarn clean && tsc",
-    "publish": "npm version patch && yarn build && npm publish"
+    "pub": "npm version patch && yarn build && npm publish"
   },
   "devDependencies": {
     "@types/express": "^4.17.7",
