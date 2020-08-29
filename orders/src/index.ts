@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import { natsClient } from "@mafunk/tix-common";
 
 import { app } from "./app";
+import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
+import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listener";
 
 const MONGO_URI = process.env.MONGO_URI!;
 const NATS_URL = process.env.NATS_URL!;
@@ -38,6 +40,9 @@ async function start() {
 
     process.on("SIGINT", () => natsClient.client.close());
     process.on("SIGTERM", () => natsClient.client.close());
+
+    new TicketCreatedListener(natsClient.client).listen();
+    new TicketUpdatedListener(natsClient.client).listen();
 
     await mongoose.connect(MONGO_URI, {
       useNewUrlParser: true,

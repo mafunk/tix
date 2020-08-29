@@ -8,7 +8,7 @@ import {
 } from "@mafunk/tix-common";
 
 import { Order, OrderStatus } from "../models/order";
-import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-publishers";
+import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-publisher";
 
 const router = express.Router();
 

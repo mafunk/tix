@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 import { Order, OrderStatus } from "./order";
 
@@ -47,7 +48,7 @@ const ticketSchema = new mongoose.Schema(
 );
 
 ticketSchema.set("versionKey", "version");
-//ticketSchema.plugin(updateIfCurrentPlugin)
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 // using function for access to this
 // ticketSchema.pre("save", async function (done) {
@@ -56,7 +57,11 @@ ticketSchema.set("versionKey", "version");
 // });
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
-  return new Ticket(attrs);
+  return new Ticket({
+    _id: attrs.id,
+    title: attrs.title,
+    price: attrs.price,
+  });
 };
 
 // this === ticket document 'isReserved' was called on

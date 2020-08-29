@@ -11,7 +11,7 @@ import {
 
 import { Order, OrderStatus } from "../models/order";
 import { Ticket } from "../models/ticket";
-import { OrderCreatedPublisher } from "../events/publishers/order-creacted-publishers";
+import { OrderCreatedPublisher } from "../events/publishers/order-created-publisher";
 
 const EXPIRATION_SECONDS = 15 * 60; // 15 minutes
 
@@ -46,7 +46,7 @@ router.post(
     const expiresAt = new Date();
     expiresAt.setSeconds(expiresAt.getSeconds() + EXPIRATION_SECONDS);
 
-    const newOrder = await Order.build({
+    const newOrder = Order.build({
       status: OrderStatus.Created,
       userId,
       expiresAt,
@@ -55,9 +55,12 @@ router.post(
     await newOrder.save();
 
     new OrderCreatedPublisher(natsClient.client).publish({
-      id: order.id,
-      status: order.status,
-      expiresAt: order.expiresAt.toISOString(),
+      id: newOrder.id,
+      version: newOrder.version,
+      status: newOrder.status,
+      userId: newOrder.userId,
+      expiresAt: newOrder.expiresAt.toISOString(),
+
       ticket: {
         id: ticket.id,
         price: ticket.price,

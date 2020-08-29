@@ -1,5 +1,5 @@
 import { Publisher, Subjects, OrderCancelledEvent } from "@mafunk/tix-common";
 
-export class OrerCancelledPublisher extends Publisher<OrderCancelledEvent> {
+export class OrderCancelledPublisher extends Publisher<OrderCancelledEvent> {
   subject: Subjects.OrderCancelled = Subjects.OrderCancelled;
 }
