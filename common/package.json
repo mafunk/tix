@@ -1,6 +1,6 @@
 {
   "name": "@mafunk/tix-common",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rimraf ./build",
     "build": "yarn clean && tsc",
-    "pub": "npm version patch && yarn build && npm publish"
+    "pub": "npm version patch && yarn build && npm publish --access public"
   },
   "devDependencies": {
     "@types/express": "^4.17.7",
