@@ -3,7 +3,7 @@ import { body } from "express-validator";
 import { requireAuth, validateRequest, natsClient } from "@mafunk/tix-common";
 
 import { Ticket } from "../models/ticket";
-import { TicketCreatedPublisher } from "../events/publishers/ticket-creacted-publishers";
+import { TicketCreatedPublisher } from "../events/publishers/ticket-creacted-publisher";
 
 const router = express.Router();
 
