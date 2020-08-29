@@ -2,12 +2,12 @@ import express from "express";
 import "express-async-errors";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
-import { errorHandler, NotFoundError } from "@mafunk/tix-common";
+import { errorHandler, NotFoundError, currentUser } from "@mafunk/tix-common";
 
-// import { currentRouter } from "./routes/current";
-// import { signinRouter } from "./routes/signin";
-// import { signoutRouter } from "./routes/signout";
-// import { signupRouter } from "./routes/signup";
+import { createTicketRouter } from "./routes/new";
+import { findTicketRouter } from "./routes/find";
+import { getAllTicketsRouter } from "./routes/all";
+import { updateTicketRouter } from "./routes/update";
 
 const app = express();
 
@@ -21,15 +21,17 @@ app.use(
   })
 );
 
+app.use(currentUser);
+
 app.get("/api/tickets/ping", (req, res) => {
   return res.send(Date());
 });
 
 // routes
-// app.use(currentRouter);
-// app.use(signinRouter);
-// app.use(signoutRouter);
-// app.use(signupRouter);
+app.use(createTicketRouter);
+app.use(findTicketRouter);
+app.use(getAllTicketsRouter);
+app.use(updateTicketRouter);
 
 app.all("*", () => {
   throw new NotFoundError();
