@@ -56,3 +56,22 @@ it("returns new order on success", async () => {
     .send({ ticketId: ticket.id })
     .expect(201);
 });
+
+
+if('emits order created event', () => {
+     const ticket = Ticket.build({
+    id: mongoose.Types.ObjectId().toHexString(),
+    title: "concert",
+    price: 4,
+  });
+
+  await ticket.save();
+
+  request(app)
+    .post("/api/orders")
+    .set("Cookie", global.signin())
+    .send({ ticketId: ticket.id })
+    .expect(201);
+
+    expect(natsClient.client.publish).toHaveBeenCalled()
+})
