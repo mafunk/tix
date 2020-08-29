@@ -21,11 +21,7 @@ router.post(
     const { title, price } = req.body;
     const userId = req.currentUser!.id;
 
-<<<<<<< HEAD
     const ticket = await Ticket.build({ title, price, userId });
-=======
-    const ticket = Ticket.build({ title, price, userId });
->>>>>>> 65f0810d17d0db811d317665fd407c88c7cb5237
     await ticket.save();
 
     res.status(201).send(ticket);

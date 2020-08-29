@@ -11,11 +11,7 @@ router.get(
   async (req: Request, res: Response) => {
     const { id } = req.params;
 
-<<<<<<< HEAD
     const tickets = await Ticket.find({});
-=======
-    const tickets = Ticket.find({});
->>>>>>> 65f0810d17d0db811d317665fd407c88c7cb5237
     if (!tickets) {
       throw new NotFoundError();
     }

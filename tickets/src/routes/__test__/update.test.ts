@@ -66,13 +66,13 @@ it("returns 400 if invalid title or price", async () => {
     .send({ title: "yee", price: 3 })
     .expect(201);
 
-  const updateResp = await request(app)
+  const updateResp1 = await request(app)
     .put(`/api/tickets/${resp.body.id}`)
     .set("Cookie", cookie)
     .send({ title: "cool", price: -1 })
     .expect(400);
 
-  const updateResp = await request(app)
+  const updateResp2 = await request(app)
     .put(`/api/tickets/${resp.body.id}`)
     .set("Cookie", cookie)
     .send({ title: "", price: 10 })
