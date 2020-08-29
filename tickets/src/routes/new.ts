@@ -1,8 +1,9 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
-import { requireAuth, validateRequest } from "@mafunk/tix-common";
+import { requireAuth, validateRequest, natsClient } from "@mafunk/tix-common";
 
 import { Ticket } from "../models/ticket";
+import { TicketCreatedPublisher } from "../events/publishers/ticket-creacted-publishers";
 
 const router = express.Router();
 
@@ -23,6 +24,13 @@ router.post(
 
     const ticket = await Ticket.build({ title, price, userId });
     await ticket.save();
+
+    new TicketCreatedPublisher(natsClient.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price.toString(),
+      userId: ticket.userId,
+    });
 
     res.status(201).send(ticket);
   }

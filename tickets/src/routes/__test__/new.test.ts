@@ -1,4 +1,5 @@
 import request from "supertest";
+import { natsClient } from "@mafunk/tix-common";
 
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
@@ -52,4 +53,14 @@ it("creates ticket with valid params", async () => {
 
   const tickets = await Ticket.find({});
   expect(tickets.length).toEqual(1);
+});
+
+it("publishes created event", async () => {
+  const resp = await request(app)
+    .post("/api/tickets")
+    .set("Cookie", global.signin())
+    .send({ title: "awesome", price: 10 });
+
+  expect(resp.status).toEqual(201);
+  expect(natsClient.client.publish).toHaveBeenCalled();
 });

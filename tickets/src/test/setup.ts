@@ -5,6 +5,8 @@ import jwt from "jsonwebtoken";
 
 import { app } from "../app";
 
+jest.mock("@mfunk/tix-common");
+
 declare global {
   namespace NodeJS {
     interface Global {
@@ -34,6 +36,8 @@ beforeEach(async () => {
   for (let collection of collections) {
     await collection.deleteMany({});
   }
+
+  jest.clearAllMocks();
 });
 
 afterAll(async () => {

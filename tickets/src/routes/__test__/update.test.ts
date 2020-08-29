@@ -1,5 +1,6 @@
 import request from "supertest";
 import mongoose from "mongoose";
+import { natsClient } from "@mafunk/tix-common";
 
 import { app } from "../../app";
 
@@ -96,4 +97,22 @@ it("updates ticket given correct params", async () => {
 
   expect(updateResp.body.title).toEqual("cool");
   expect(updateResp.body.price).toEqual(10);
+});
+
+it("publishes updated event", async () => {
+  const cookie = global.signin();
+
+  await request(app)
+    .post("/api/tickets")
+    .set("Cookie", cookie)
+    .send({ title: "yee", price: 3 })
+    .expect(201);
+
+  await request(app)
+    .put(`/api/tickets/${resp.body.id}`)
+    .set("Cookie", cookie)
+    .send({ title: "cool", price: 10 })
+    .expect(200);
+
+  expect(natsClient.client.publish).toHaveBeenCalled();
 });

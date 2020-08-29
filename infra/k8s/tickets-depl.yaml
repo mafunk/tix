@@ -20,6 +20,18 @@ spec:
           env:
             - name: MONGO_URI
               value: "mongodb://tickets-mongo-srv:27017/tickets"
+
+            - name: NATS_URL
+              value: "https://nats-srv:4222"
+
+            - name: NATS_CLUSTER_ID
+              value: "tix"
+
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:

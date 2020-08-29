@@ -58,3 +58,5 @@ First time visting tickets.dev. type: `thisisunsafe` to bypass chrome security w
 
 `kubectl port-forward`[nats-depl-] 4222:4222`, temp process, run in seperate terminal window
 
+**Todo** Publish failures: store event in mongo alongside change, if one of them fails revert/dont sent
+    * have sent flag so when NATS sends, can flip flag

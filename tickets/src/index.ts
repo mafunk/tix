@@ -1,8 +1,12 @@
 import mongoose from "mongoose";
+import { natsClient } from "@mafunk/tix-common";
 
 import { app } from "./app";
 
 const MONGO_URI = process.env.MONGO_URI!;
+const NATS_URL = process.env.NATS_URL!;
+const NATS_CLUTSER_ID = process.env.NATS_CLUSTER_ID!;
+const NATS_CLIENT_ID = process.env.NATS_CLIENT_ID!;
 
 async function start() {
   try {
@@ -14,13 +18,34 @@ async function start() {
       throw new Error("MONGO_URI must be defined");
     }
 
+    if (!NATS_URL) {
+      throw new Error("NATS_URL must be defined");
+    }
+
+    if (!NATS_CLUTSER_ID) {
+      throw new Error("NATS_CLUTSER_ID must be defined");
+    }
+
+    if (!NATS_CLIENT_ID) {
+      throw new Error("NATS_CLIENT_ID must be defined");
+    }
+
+    await natsClient.connect();
+
+    natsClient.client.on("close", () => {
+      console.log("NATS connection closed");
+    });
+
+    process.on("SIGINT", () => natsClient.client.close());
+    process.on("SIGTERM", () => natsClient.client.close());
+
     await mongoose.connect(MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
 
-    console.log("Connected to mongo");
+    console.log("Connected to Mongo");
 
     app.listen(3000, () => {
       console.log("Listening on port 3000");
