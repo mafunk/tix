@@ -6,6 +6,20 @@ import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
 import { Order, OrderStatus } from "../../models/order";
 
+natsClient = jest.fn().mockReturnValue(() => {
+  return {
+    client: {
+      publish: jest
+        .fn()
+        .mockImplementation(
+          (subject: string, data: string, callback: () => void) => {
+            callback();
+          }
+        ),
+    },
+  };
+});
+
 it("returns 404 if ticket doesnt exist", async () => {
   const ticketId = mongoose.Types.ObjectId();
 
@@ -57,9 +71,8 @@ it("returns new order on success", async () => {
     .expect(201);
 });
 
-
-if('emits order created event', () => {
-     const ticket = Ticket.build({
+it("emits order created event", async () => {
+  const ticket = Ticket.build({
     id: mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 4,
@@ -73,5 +86,5 @@ if('emits order created event', () => {
     .send({ ticketId: ticket.id })
     .expect(201);
 
-    expect(natsClient.client.publish).toHaveBeenCalled()
-})
+  expect(natsClient.client.publish).toHaveBeenCalled();
+});

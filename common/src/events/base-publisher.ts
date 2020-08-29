@@ -7,6 +7,8 @@ interface Event {
   data: any;
 }
 
+// TODO: use common nats-client so publishers dont have to import nats-client
+
 abstract class Publisher<T extends Event> {
   abstract subject: T["subject"];
   private client: Stan;

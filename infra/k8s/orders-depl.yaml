@@ -19,7 +19,7 @@ spec:
           image: funkstyr/orders
           env:
             - name: MONGO_URI
-              value: "mongodb://tickets-mongo-srv:27017/tickets"
+              value: "mongodb://orders-mongo-srv:27017/tickets"
 
             - name: NATS_URL
               value: "https://nats-srv:4222"

@@ -5,8 +5,6 @@ import jwt from "jsonwebtoken";
 
 import { app } from "../app";
 
-jest.mock("@mafunk/tix-common");
-
 declare global {
   namespace NodeJS {
     interface Global {

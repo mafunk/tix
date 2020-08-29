@@ -1,10 +1,5 @@
 import { Message } from "node-nats-streaming";
-import {
-  Subjects,
-  Listener,
-  TicketCreatedEvent,
-  natClient,
-} from "@mafunk/tix-common";
+import { Subjects, Listener, TicketCreatedEvent } from "@mafunk/tix-common";
 
 import { Ticket } from "../../models/ticket";
 import { queueGroupName } from "./config";
