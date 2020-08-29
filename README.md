@@ -53,3 +53,8 @@ First time visting tickets.dev. type: `thisisunsafe` to bypass chrome security w
     * /api/tickets/:id - GET
     * /api/tickets - POST, title: string, price: string
     * /api/tickets/:id - PUT, title: string, price string
+
+## NATS Testing
+
+`kubectl port-forward`[nats-depl-] 4222:4222`, temp process, run in seperate terminal window
+
