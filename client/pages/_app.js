@@ -10,20 +10,11 @@ function CustomApp({ Component, pageProps, currentUser }) {
     <>
       <Header currentUser={currentUser} />
 
-      <Component {...pageProps} currentUser={currentUser} />
+      <div className="container">
+        <Component {...pageProps} currentUser={currentUser} />
+      </div>
     </>
   );
-}
-
-export async function getServerSideProps(ctx) {
-  console.log("_app", ctx);
-  const { req } = ctx;
-
-  const { data } = await api.get("/users/current", { headers: req.headers });
-
-  return {
-    props: { ...data }, // will be passed to the page component as props
-  };
 }
 
 CustomApp.getInitialProps = async (appCtx) => {

@@ -3,6 +3,8 @@ import api from "api";
 
 import styles from "styles/Home.module.css";
 
+import TicketListPage from "./tickets/index.tsx";
+
 function Home(props) {
   const { currentUser } = props;
 
@@ -70,4 +72,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default TicketListPage;
