@@ -34,6 +34,8 @@ abstract class Listener<T extends Event> {
       this.subscriptionOptions()
     );
 
+    console.log(`Subscribed to: ${this.subject}`);
+
     sub.on("message", (msg: Message) => {
       const data = this.parseMessage(msg);
 

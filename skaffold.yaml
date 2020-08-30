@@ -45,6 +45,17 @@ build:
           - src: "src/**/*.ts" # files to watch
             dest: . # where to sync file to
 
+    - image: funkstyr/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+        buildArgs:
+          NPM_TOKEN: "{{.NPM_TOKEN}}"
+      sync:
+        manual:
+          - src: "src/**/*.ts" # files to watch
+            dest: . # where to sync file to
+
     - image: funkstyr/client
       context: client
       docker:

@@ -13,7 +13,7 @@ import { Order, OrderStatus } from "../models/order";
 import { Ticket } from "../models/ticket";
 import { OrderCreatedPublisher } from "../events/publishers/order-created-publisher";
 
-const EXPIRATION_SECONDS = 15 * 60; // 15 minutes
+const EXPIRATION_SECONDS = 1 * 60; // 15 minutes
 
 const router = express.Router();
 
@@ -24,8 +24,9 @@ router.post(
     body("ticketId")
       .not()
       .isEmpty()
+      .withMessage("Ticket id is required")
       .custom((input: string) => mongoose.Types.ObjectId.isValid(input))
-      .withMessage("Ticket id is required"),
+      .withMessage("Must be valid id"),
   ],
   validateRequest,
 

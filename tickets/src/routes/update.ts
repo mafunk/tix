@@ -5,7 +5,7 @@ import {
   requireAuth,
   validateRequest,
   NotAuthorizedError,
-  BadRequestError
+  BadRequestError,
   natsClient,
 } from "@mafunk/tix-common";
 
@@ -34,7 +34,7 @@ router.put(
     }
 
     if (ticket.orderId) {
-      throw new BadRequestError('Ticket is reserved');
+      throw new BadRequestError("Ticket is reserved");
     }
 
     if (ticket.userId !== req.currentUser!.id) {

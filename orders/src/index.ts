@@ -4,6 +4,7 @@ import { natsClient } from "@mafunk/tix-common";
 import { app } from "./app";
 import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
 import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listener";
+import { ExpirationCompleteListener } from "./events/listeners/expiration-complete-listener";
 
 const MONGO_URI = process.env.MONGO_URI!;
 const NATS_URL = process.env.NATS_URL!;
@@ -43,6 +44,7 @@ async function start() {
 
     new TicketCreatedListener(natsClient.client).listen();
     new TicketUpdatedListener(natsClient.client).listen();
+    new ExpirationCompleteListener(natsClient.client).listen();
 
     await mongoose.connect(MONGO_URI, {
       useNewUrlParser: true,
