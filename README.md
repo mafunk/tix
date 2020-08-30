@@ -23,6 +23,20 @@
 
 First time visting tickets.dev. type: `thisisunsafe` to bypass chrome security warning
 
+###  Workflow
+
+1) [local] Make change to code for x service
+2) [local] Commit code to a branch(not master)
+3) [local] Push branch to github
+4) [github] Create PR to master
+   1) auto runs tests
+   2) if tests pass, merge allowed
+5) [github] Build and deploy
+
+### Github Actions
+
+1) [pull request] run tests
+
 ## Terms of Kubernetes
 
     * Kubernetes Cluster - collection of nodes + orchestrator

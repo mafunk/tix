@@ -1,0 +1,11 @@
+name: tests
+
+on: # when we do this workflow
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd auth && yarn && yarn test
