@@ -2,6 +2,8 @@ name: deploy-expiration
 
 on: # when we do this workflow
   push:
+    branches:
+      - master
     paths: # run only for changes located here
       - "expiration/**"
 
