@@ -18,7 +18,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: yarn docker:push
-      - uses: digitalocean/actions-doctl@v2 # install doctl
+      - uses: digitalocean/action-doctl@v22 # install doctl
         with:
           token: ${{ secrets.DO_TOKEN }}
       - run: doctl kubernetes cluster kubeconfig save $CLUSTER_NAME
