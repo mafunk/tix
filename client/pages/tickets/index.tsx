@@ -3,7 +3,9 @@ import Link from "next/link";
 
 import useRequest from "hooks/use-request";
 
-function TicketsListPage() {
+function TicketsListPage(props) {
+  const { currentUser } = props;
+
   const [tickets, setTickets] = useState([]);
 
   const { doRequest } = useRequest({
@@ -31,7 +33,7 @@ function TicketsListPage() {
             </Link>
           </td>
           <td>{price}</td>
-          <td>Purchase</td>
+          <td></td>
         </tr>
       );
     });
@@ -46,7 +48,15 @@ function TicketsListPage() {
           <tr>
             <th>Title</th>
             <th>Price</th>
-            <th></th>
+            <th>
+              {!!currentUser && (
+                <Link href="/tickets/new">
+                  <a>
+                    <button className="btn btn-primary">Create</button>
+                  </a>
+                </Link>
+              )}
+            </th>
           </tr>
         </thead>
 

@@ -11,7 +11,7 @@ router.get(
   async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    const tickets = await Ticket.find({});
+    const tickets = await Ticket.find({ orderId: undefined });
     if (!tickets) {
       throw new NotFoundError();
     }

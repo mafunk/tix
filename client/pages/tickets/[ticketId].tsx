@@ -3,14 +3,14 @@ import { useRouter } from "next/router";
 
 import useRequest from "hooks/use-request";
 
-function TicketsDetailPage() {
+function TicketDetailPage() {
   const router = useRouter();
   const { ticketId } = router.query;
 
   const [info, setInfo] = useState({});
-  const { title, price } = info;
+  const { title, price, orderId } = info;
 
-  const { doRequest } = useRequest({
+  const { doRequest: fetchTicket } = useRequest({
     url: `/tickets/${ticketId}`,
     method: "get",
     onSuccess: (data = {}) => {
@@ -18,9 +18,25 @@ function TicketsDetailPage() {
     },
   });
 
+  const { doRequest: createOrder } = useRequest({
+    url: `/orders`,
+    method: "post",
+    onSuccess: (data = {}) => {
+      //setInfo(data);
+
+      //console.log("order created", data);
+
+      router.push("/orders/[orderId]", `/orders/${data.id}`);
+    },
+  });
+
   useEffect(() => {
-    doRequest();
+    fetchTicket();
   }, []);
+
+  const handleClick = () => {
+    createOrder({ ticketId });
+  };
 
   return (
     <>
@@ -30,9 +46,15 @@ function TicketsDetailPage() {
 
       <p>{price}</p>
 
-      <button className="btn btn-primary">Purchase</button>
+      <button
+        className="btn btn-primary"
+        onClick={handleClick}
+        disabled={!!orderId}
+      >
+        Add To Cart
+      </button>
     </>
   );
 }
 
-export default TicketsDetailPage;
+export default TicketDetailPage;
