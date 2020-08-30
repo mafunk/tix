@@ -18,7 +18,7 @@ it("fails when an incorrect password is used", async () => {
     .post("/api/users/signin")
     .send({ email: "test@email.com", password: "notlong" })
     .expect(400);
-});
+}, 10000);
 
 it("responds with cookie", async () => {
   await request(app)
@@ -32,4 +32,4 @@ it("responds with cookie", async () => {
     .expect(200);
 
   expect(response.get("Set-Cookie")).toBeDefined();
-});
+}, 10000);
