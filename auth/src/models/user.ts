@@ -8,13 +8,13 @@ interface UserAttrs {
   password: string;
 }
 
+// User Document properties
+interface UserDoc extends mongoose.Document, UserAttrs {}
+
 // User Model properties
 interface UserModel extends mongoose.Model<UserDoc> {
   build(attrs: UserAttrs): UserDoc;
 }
-
-// User Document properties
-interface UserDoc extends mongoose.Document, UserAttrs {}
 
 const userSchema = new mongoose.Schema(
   {

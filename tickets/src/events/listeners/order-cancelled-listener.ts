@@ -1,32 +1,33 @@
 import { Message } from "node-nats-streaming";
-import { Listener, OrderCreatedEvent, Subjects } from "@mafunk/tix-common";
+import { Listener, OrderCancelledEvent, Subjects } from "@mafunk/tix-common";
 
 import { queueGroupName } from "./config";
 import { Ticket } from "../../models/ticket";
 import { TicketUpdatedPublisher } from "../publishers/ticket-updated-publisher";
 
-export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
-  subject: Subjects.OrderCreated = Subjects.OrderCreated;
+export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
+  subject: Subjects.OrderCancelled = Subjects.OrderCancelled;
   queueGroupName = queueGroupName;
 
-  async onMessage(data: OrderCreatedEvent["data"], msg: Message) {
-    const { id, ticket } = data;
+  async onMessage(data: OrderCancelledEvent["data"], msg: Message) {
+    const { ticket } = data;
 
     const foundTicket = await Ticket.findById(ticket.id);
+
     if (!foundTicket) {
       throw new Error("Ticket not found");
     }
 
-    foundTicket.set({ orderId: id });
+    foundTicket.set({ orderId: undefined });
     await foundTicket.save();
 
     await new TicketUpdatedPublisher(this.client).publish({
       id: foundTicket.id,
-      version: foundTicket.version,
-      title: foundTicket.title,
-      price: foundTicket.price,
-      userId: foundTicket.userId,
       orderId: foundTicket.orderId,
+      userId: foundTicket.userId,
+      price: foundTicket.price,
+      title: foundTicket.title,
+      version: foundTicket.version,
     });
 
     msg.ack();

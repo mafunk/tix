@@ -1,8 +1,21 @@
 import request from "supertest";
-import { natsClient } from "@mafunk/tix-common";
 
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
+
+const natsClient = jest.fn().mockReturnValue(() => {
+  return {
+    client: {
+      publish: jest
+        .fn()
+        .mockImplementation(
+          (subject: string, data: string, callback: () => void) => {
+            callback();
+          }
+        ),
+    },
+  };
+});
 
 it("listening to /api/tickets for post request", async () => {
   const resp = await request(app).post("/api/tickets").send({});

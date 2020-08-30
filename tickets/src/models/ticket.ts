@@ -8,15 +8,15 @@ interface TicketAttrs {
   userId: string;
 }
 
-// Ticket Model properties
-interface TicketModel extends mongoose.Model<TicketDoc> {
-  build(attrs: TicketAttrs): TicketDoc;
-}
-
 // Ticket Document properties
 interface TicketDoc extends mongoose.Document, TicketAttrs {
   version: number;
   orderId?: string;
+}
+
+// Ticket Model properties
+interface TicketModel extends mongoose.Model<TicketDoc> {
+  build(attrs: TicketAttrs): TicketDoc;
 }
 
 const ticketSchema = new mongoose.Schema(

@@ -1,8 +1,21 @@
 import request from "supertest";
 import mongoose from "mongoose";
-import { natsClient } from "@mafunk/tix-common";
 
 import { app } from "../../app";
+
+const natsClient = jest.fn().mockReturnValue(() => {
+  return {
+    client: {
+      publish: jest
+        .fn()
+        .mockImplementation(
+          (subject: string, data: string, callback: () => void) => {
+            callback();
+          }
+        ),
+    },
+  };
+});
 
 it("returns 404 if invalid ticket id", async () => {
   await request(app)
@@ -102,7 +115,7 @@ it("updates ticket given correct params", async () => {
 it("publishes updated event", async () => {
   const cookie = global.signin();
 
-  await request(app)
+  const resp = await request(app)
     .post("/api/tickets")
     .set("Cookie", cookie)
     .send({ title: "yee", price: 3 })
@@ -115,4 +128,29 @@ it("publishes updated event", async () => {
     .expect(200);
 
   expect(natsClient.client.publish).toHaveBeenCalled();
+});
+
+it("rejects updates if the ticket is reserved", async () => {
+  const cookie = global.signin();
+
+  const response = await request(app)
+    .post("/api/tickets")
+    .set("Cookie", cookie)
+    .send({
+      title: "asldkfj",
+      price: 20,
+    });
+
+  const ticket = await Ticket.findById(response.body.id);
+  ticket!.set({ orderId: mongoose.Types.ObjectId().toHexString() });
+  await ticket!.save();
+
+  await request(app)
+    .put(`/api/tickets/${response.body.id}`)
+    .set("Cookie", cookie)
+    .send({
+      title: "new title",
+      price: 100,
+    })
+    .expect(400);
 });

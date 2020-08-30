@@ -1,11 +1,11 @@
 import { Message } from "node-nats-streaming";
 import mongoose from "mongoose";
-import { TicketUpdatedEvent, natsClient } from "@mafunk/tix-common";
+import { TicketUpdatedEvent } from "@mafunk/tix-common";
 
 import { TicketUpdatedListener } from "../ticket-updated-listener";
 import { Ticket } from "../../../models/ticket";
 
-natsClient = jest.fn().mockReturnValue(() => {
+const natsClient = jest.fn().mockReturnValue(() => {
   return {
     client: {
       publish: jest

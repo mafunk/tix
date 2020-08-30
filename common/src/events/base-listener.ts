@@ -11,7 +11,7 @@ abstract class Listener<T extends Event> {
   abstract subject: T["subject"];
   abstract queueGroupName: string;
   abstract onMessage(data: T["data"], msg: Message): void;
-  private client: Stan;
+  protected client: Stan;
   protected ackWait = 1000 * 5; // 5 seconds
 
   constructor(client: Stan) {
@@ -35,11 +35,14 @@ abstract class Listener<T extends Event> {
     );
 
     sub.on("message", (msg: Message) => {
+      const data = this.parseMessage(msg);
+
       console.log(
-        `Message receieved[${Date()}]: ${this.subject} / ${this.queueGroupName}`
+        `Message receieved[${Date()}]: ${this.subject} / ${
+          this.queueGroupName
+        } - ${data.id}.${data.version}`
       );
 
-      const data = this.parseMessage(msg);
       this.onMessage(data, msg);
     });
   }

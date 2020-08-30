@@ -1,12 +1,11 @@
 import request from "supertest";
 import mongoose from "mongoose";
-import { natsClient } from "@mafunk/tix-common";
 
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
 import { Order, OrderStatus } from "../../models/order";
 
-natsClient = jest.fn().mockReturnValue(() => {
+const natsClient = jest.fn().mockReturnValue(() => {
   return {
     client: {
       publish: jest
