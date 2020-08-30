@@ -7,6 +7,7 @@ deploy:
   kubectl:
     manifests:
       - ./infra/k8s/*
+      - ./infra/k8s-dev/*
 
 build:
   local:
@@ -75,3 +76,53 @@ build:
         manual:
           - src: "**/*" # files to watch
             dest: . # where to sync file to
+
+profiles:
+  - name: local # local prod builds
+    patches:
+      - op: replace
+        path: /build/artifacts/0/docker/dockerfile
+        value: prod.Dockerfile
+      - op: replace
+        path: /build/artifacts/1/docker/dockerfile
+        value: prod.Dockerfile
+      - op: replace
+        path: /build/artifacts/2/docker/dockerfile
+        value: prod.Dockerfile
+      - op: replace
+        path: /build/artifacts/3/docker/dockerfile
+        value: prod.Dockerfile
+      - op: replace
+        path: /build/artifacts/4/docker/dockerfile
+        value: prod.Dockerfile
+      - op: replace
+        path: /build/artifacts/5/docker/dockerfile
+        value: prod.Dockerfile
+
+  - name: prod
+    activation:
+      - kubeContext: prod-cluster-context
+    deploy:
+      kubectl:
+        manifests:
+          - ./infra/k8s/*
+          - ./infra/k8s-prod/*
+    patches:
+      - op: replace
+        path: /build/artifacts/0/docker/dockerfile
+        value: prod.Dockerfile
+      - op: replace
+        path: /build/artifacts/1/docker/dockerfile
+        value: prod.Dockerfile
+      - op: replace
+        path: /build/artifacts/2/docker/dockerfile
+        value: prod.Dockerfile
+      - op: replace
+        path: /build/artifacts/3/docker/dockerfile
+        value: prod.Dockerfile
+      - op: replace
+        path: /build/artifacts/4/docker/dockerfile
+        value: prod.Dockerfile
+      - op: replace
+        path: /build/artifacts/5/docker/dockerfile
+        value: prod.Dockerfile

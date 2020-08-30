@@ -23,7 +23,9 @@
     "tsc:init": "tsc --init",
     "start": "ts-node-dev --poll src/index.ts",
     "docker:build": "docker build -t funkstyr/${npm_package_name} .",
-    "test": "jest test"
+    "docker:push": "docker push funkstyr/${npm_package_name}",
+    "test": "jest --watchAll --no-cache",
+    "test:ci": "jest --coverage"
   },
   "devDependencies": {
     "@types/jest": "^26.0.10",

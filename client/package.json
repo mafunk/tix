@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "docker:build": "docker build -t funkstyr/${npm_package_name} ."
+    "docker:build": "docker build -t funkstyr/${npm_package_name} .",
+    "docker:push": "docker push funkstyr/${npm_package_name}"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",

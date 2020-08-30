@@ -5,7 +5,7 @@ import { validateRequest, BadRequestError } from "@mafunk/tix-common";
 
 import { User } from "../models/user";
 
-const JWT_SECRET = process.env.JWT_KEY!;
+const JWT_SECRET = process.env.JWT_KEY! || "testing";
 
 const router = express.Router();
 

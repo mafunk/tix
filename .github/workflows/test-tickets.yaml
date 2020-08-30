@@ -1,0 +1,13 @@
+name: test-tickets
+
+on: # when we do this workflow
+  pull_request:
+    paths: # run only for changes located here
+      - "tickets/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd tickets && yarn && yarn test:ci
