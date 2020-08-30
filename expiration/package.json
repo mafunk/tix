@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@mafunk/tix-common": "^1.0.13",
+    "@mafunk/tix-common": "^1.0.14",
     "@types/bull": "^3.14.2",
     "bull": "^3.18.0",
     "node-nats-streaming": "^0.3.2",

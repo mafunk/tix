@@ -1,16 +1,16 @@
 import mongoose from "mongoose";
 import { natsClient } from "@mafunk/tix-common";
 
+import { OrderCreatedListener } from "./events/listeners/order-created-listener";
+import { OrderCancelledListener } from "./events/listeners/order-cancelled-listener";
+
 import { app } from "./app";
-import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
-import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listener";
-import { ExpirationCompleteListener } from "./events/listeners/expiration-complete-listener";
-import { PaymentCreatedListener } from "./events/listeners/payment-created-listener";
 
 const MONGO_URI = process.env.MONGO_URI!;
 const NATS_URL = process.env.NATS_URL!;
 const NATS_CLUTSER_ID = process.env.NATS_CLUSTER_ID!;
 const NATS_CLIENT_ID = process.env.NATS_CLIENT_ID!;
+const STRIPE_KEY = process.env.STRIPE_KEY!;
 
 async function start() {
   try {
@@ -34,6 +34,10 @@ async function start() {
       throw new Error("NATS_CLIENT_ID must be defined");
     }
 
+    if (!STRIPE_KEY) {
+      throw new Error("STRIPE_KEY must be defined");
+    }
+
     await natsClient.connect();
 
     natsClient.client.on("close", () => {
@@ -43,10 +47,8 @@ async function start() {
     process.on("SIGINT", () => natsClient.client.close());
     process.on("SIGTERM", () => natsClient.client.close());
 
-    new TicketCreatedListener(natsClient.client).listen();
-    new TicketUpdatedListener(natsClient.client).listen();
-    new ExpirationCompleteListener(natsClient.client).listen();
-    new PaymentCreatedListener(natsClient.client).listen();
+    new OrderCreatedListener(natsClient.client).listen();
+    new OrderCancelledListener(natsClient.client).listen();
 
     await mongoose.connect(MONGO_URI, {
       useNewUrlParser: true,

@@ -13,6 +13,7 @@
    1. https://skaffold.dev/docs/install/
 5. `kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asdf`
    1. `kubectl get secrets`
+6. `kubectl create secret generic stripe-secret --from-literal=STRIPE_KEY=asch`
 
 ## Dev
 
@@ -60,6 +61,10 @@ First time visting tickets.dev. type: `thisisunsafe` to bypass chrome security w
     * /api/orders/:id - GET
     * /api/orders - POST, ticketId: string
     * /api/orders/:id - DELETE
+
+## Payments Service
+
+    * /api/payments - POST, token: string, orderId: string
 
 ## NATS Testing
 

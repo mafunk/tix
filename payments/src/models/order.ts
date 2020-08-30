@@ -2,30 +2,38 @@ import mongoose from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { OrderStatus } from "@mafunk/tix-common";
 
-import { TicketDoc } from "./ticket";
-
 // required propertires to create Order
 interface OrderAttrs {
+  id: string;
+  version: number;
   userId: string;
-  status: OrderStatus;
-  expiresAt: Date;
 
-  ticket: TicketDoc;
+  price: number;
+  status: OrderStatus;
 }
 
 // Order Document properties
-interface OrderDoc extends mongoose.Document, OrderAttrs {
+interface OrderDoc extends mongoose.Document {
   version: number;
-  paymentId?: string;
+  userId: string;
+  price: number;
+  status: OrderStatus;
 }
 
 // Order Model properties
 interface OrderModel extends mongoose.Model<OrderDoc> {
   build(attrs: OrderAttrs): OrderDoc;
+
+  findByEvent(event: { id: string; version: number }): Promise<OrderDoc | null>;
 }
 
 const orderSchema = new mongoose.Schema(
   {
+    price: {
+      type: Number,
+      required: true,
+    },
+
     userId: {
       type: String,
       required: true,
@@ -34,21 +42,6 @@ const orderSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: Object.values(OrderStatus),
-      default: OrderStatus.Created,
-    },
-
-    expiresAt: {
-      type: mongoose.Schema.Types.Date,
-    },
-
-    paymentId: {
-      type: String,
-    },
-
-    ticket: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Ticket",
     },
   },
   {
@@ -70,8 +63,21 @@ orderSchema.plugin(updateIfCurrentPlugin);
 //   done();
 // });
 
+orderSchema.statics.findByEvent = (event: { id: string; version: number }) => {
+  return Order.findOne({
+    _id: event.id,
+    version: event.version - 1,
+  });
+};
+
 orderSchema.statics.build = (attrs: OrderAttrs) => {
-  return new Order(attrs);
+  return new Order({
+    _id: attrs.id,
+    version: attrs.version,
+    price: attrs.price,
+    userId: attrs.userId,
+    status: attrs.status,
+  });
 };
 
 const Order = mongoose.model<OrderDoc, OrderModel>("Order", orderSchema);

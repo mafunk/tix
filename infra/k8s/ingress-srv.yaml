@@ -28,6 +28,11 @@ spec:
               serviceName: orders-srv
               servicePort: 3000
 
+          - path: /api/payments/?(.*)
+            backend:
+              serviceName: payments-srv
+              servicePort: 3000
+
           - path: /?(.*) # needs to be last to capture everything not defined
             backend:
               serviceName: client-srv
