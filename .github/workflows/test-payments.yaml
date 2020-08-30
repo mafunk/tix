@@ -1,11 +1,13 @@
-name: tests
+name: test-payments
 
 on: # when we do this workflow
   pull_request:
+    paths:
+      - "payments/**"
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd auth && yarn && yarn test
+      - run: cd payments && yarn && yarn test:ci

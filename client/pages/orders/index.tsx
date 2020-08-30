@@ -41,7 +41,7 @@ function OrdersListPage(props) {
 
   return (
     <>
-      <h1>Tickets</h1>
+      <h1>Orders</h1>
 
       <table className="table">
         <thead>

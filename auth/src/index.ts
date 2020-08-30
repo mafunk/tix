@@ -5,6 +5,8 @@ import { app } from "./app";
 const MONGO_URI = process.env.MONGO_URI!;
 
 async function start() {
+  console.log("Starting up");
+
   if (!process.env.JWT_KEY) {
     throw new Error("JWT_KEY must be defined");
   }

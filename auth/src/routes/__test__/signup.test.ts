@@ -32,7 +32,7 @@ it("does not allow same email", async () => {
   await request(app)
     .post("/api/users/signup")
     .send({ email: "test@email.com", password: "thisislong" })
-    .expect(401);
+    .expect(400);
 });
 
 it("returns a 400 with an invalid email", async () => {

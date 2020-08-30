@@ -1,0 +1,13 @@
+name: test-auth
+
+on: # when we do this workflow
+  pull_request:
+    paths:
+      - "auth/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd auth && yarn && yarn test:ci

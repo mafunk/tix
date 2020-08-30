@@ -6,7 +6,7 @@ import { validateRequest, BadRequestError } from "@mafunk/tix-common";
 import { User } from "../models/user";
 import { Password } from "../services/password";
 
-const JWT_SECRET = process.env.JWT_KEY!;
+//const JWT_SECRET = process.env.JWT_KEY!;
 
 const router = express.Router();
 
@@ -35,7 +35,7 @@ router.post(
 
     const userJwt = jwt.sign(
       { id: existingUser.id, email: existingUser.email },
-      JWT_SECRET
+      process.env.JWT_KEY!
     );
     req.session = {
       jwt: userJwt,

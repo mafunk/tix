@@ -1,0 +1,27 @@
+name: deploy-tickets
+
+on: # when we do this workflow
+  push:
+    branches:
+      - master
+    paths: # run only for changes located here
+      - "tickets/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd tickets && yarn docker:build
+      - run: docker login - u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: yarn docker:push
+      - uses: digitalocean/action-doctl@v22 # install doctl
+        with:
+          token: ${{ secrets.DO_TOKEN }}
+      - run: doctl kubernetes cluster kubeconfig save $CLUSTER_NAME
+        env:
+          CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
+      - run: kubectl rollout restart deployment tickets-depl # only deploy auth, not auth-mongo
