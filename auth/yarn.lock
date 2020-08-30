@@ -475,10 +475,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@mafunk/tix-common@^1.0.14":
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/@mafunk/tix-common/-/tix-common-1.0.14.tgz#ab7991bf2101945eda6efd96fbebee6163c69ecf"
-  integrity sha512-O8YriteDavfSfARZ0xQQvx9AHMZsSETsLQnzaXHlX8tmlbz5EW9LORbzT6DTPWIr3RQ9ApZWHXj4+A2gvcwfIA==
+"@mafunk/tix-common@^1.0.15":
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/@mafunk/tix-common/-/tix-common-1.0.15.tgz#1aeb122428fe0099dd148adff8c6d931f83535b2"
+  integrity sha512-EFIAmGodOp+Xa2QFC6z6HEqwJ85r+J5JMOF/d9s7a+EZe/gC7Ixakj0goq7y2hrtOAlbdmkFajyeinS0WiP1gQ==
   dependencies:
     cookie-session "^1.4.0"
     express "^4.17.1"

@@ -25,12 +25,16 @@ export const currentUser = (
   if (!req.session?.jwt) return next();
 
   try {
-    // @ts-ignore
-    const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!) as UserPayload;
+    const payload = jwt.verify(
+      // @ts-ignore
+      req.session.jwt,
+      process.env.JWT_KEY!
+    ) as UserPayload;
 
     req.currentUser = payload;
   } catch (error) {
     // not empty
+    console.error(error);
   }
 
   next();

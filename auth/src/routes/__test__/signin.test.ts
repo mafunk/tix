@@ -3,7 +3,7 @@ import { app } from "../../app";
 
 it("fails when an email that does not exist is used", async () => {
   await request(app)
-    .post("api/users/signin")
+    .post("/api/users/signin")
     .send({ email: "test@email.com", password: "stuff" })
     .expect(400);
 });
@@ -20,7 +20,7 @@ it("fails when an incorrect password is used", async () => {
     .expect(400);
 });
 
-it("respons with cookie", async () => {
+it("responds with cookie", async () => {
   await request(app)
     .post("/api/users/signup")
     .send({ email: "test@email.com", password: "thisislong" })
